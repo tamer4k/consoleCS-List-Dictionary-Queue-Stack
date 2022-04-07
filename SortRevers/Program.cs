@@ -122,15 +122,7 @@ namespace SortRevers
                 dictionaryCuctomer.Add(customer1.ID, customer1);
             }
 
-
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n===================(List AsReadOnly)===================\n");
-
-            IReadOnlyCollection<Customer> readOnlyCustomer = listCustomers.AsReadOnly();
-            foreach (var l in listCustomers)
-            {
-                Console.WriteLine(l.ID + " " + l.Name + " " + l.Salary);
-            }
 
             Console.WriteLine("\n===================(List TrueForAll)===================\n");
 
@@ -152,6 +144,14 @@ namespace SortRevers
             Console.WriteLine("Capacity before trimming: " + listCustomers.Capacity);
             listCustomers.TrimExcess();
             Console.WriteLine("Capacity after trimming: " + listCustomers.Capacity);
+
+            Console.WriteLine("\n===================(List AsReadOnly)===================\n");
+
+            IReadOnlyCollection<Customer> readOnlyCustomer = listCustomers.AsReadOnly();
+            foreach (var l in listCustomers)
+            {
+                Console.WriteLine("ID: {0} , Name:{1} , Salary: {2} ", l.ID, l.Name, l.Salary);
+            }
 
 
             Console.ForegroundColor = ConsoleColor.Red;
