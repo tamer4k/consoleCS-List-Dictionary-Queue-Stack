@@ -1,32 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SortRevers
 {
-
-    // List  FIFO Find (); / TrueForAll(); /Simple type/ Sort(); / Reverse(); / AsReadOnly(); / Count; / Capacity;
-    // List  FIFO Find (); / TrueForAll(); /Complex type/ Sort(); / Reverse(); / AsReadOnly(); / Count; / Capacity;
-    // Dictionary ContainsKey(); / KeyValuePair<T, T>
-    // Queue FIFO Enqueue(); fore add / Dequeue(); fore remove /  Peek() fore return  / Contains() fore check
-    // Stack LIFO Push();    fore add / Pop();     fore remove /  Peek() fore return  / Contains() fore check
-
+    /*
+     1. List  FIFO FindAll(); /FindLast(); /Find(); / TrueForAll(); /Complex type / Simple type/ Sort(); / Reverse(); / AsReadOnly(); / Count;
+         Capacity / Insert();/ IndexOf(); / Contains(); / Exist(); StartWith(); / AddRange(); GetRange(); / RemoveRange(); InsertRange(); 
+     2. Dictionary ContainsKey(); / KeyValuePair<T, T> / TryGetValue(); / Count(kvp => kvp.Value.Salary > 3000); / Remove() / Clear(); 
+     3. Queue FIFO Enqueue(); fore add / Dequeue(); fore remove /  Peek() fore return  / Contains() fore check
+     4. Stack LIFO Push();    fore add / Pop();     fore remove /  Peek() fore return  / Contains() fore check
+    */
     public static class DoWhile
     {
-        public static string dodo ()
+        public static string dodo()
         {
             string result = "";
-          
+
             do
             {
                 Console.WriteLine("YES OR NO");
                 result = Console.ReadLine().ToUpper();
             }
             while (result != "YES" && result != "NO");
-            
+
             return result;
         }
     }
+    public static class Addnummer
+    {
+        public static void addnumber(int x , int y, params object[] opsoinal)
+        {
+            int result = x + y;
 
+                foreach (int item in opsoinal)
+                {
+                    result += item;
+                }
+         
+
+            Console.WriteLine(result);
+        }
+    }
     public class Customer : IComparable<Customer>
     {
         public int ID { get; set; }
@@ -65,8 +80,10 @@ namespace SortRevers
     {
         static void Main(string[] args)
         {
+
+            //var dowhile = DoWhile.dodo();
+           Addnummer.addnumber(1, 1 , 10,5);
             
-            var dowhile = DoWhile.dodo();
 
             Customer customer1 = new Customer() { ID = 1, Name = "C", Salary = 3000 };
             Customer customer2 = new Customer() { ID = 2, Name = "A", Salary = 2000 };
@@ -78,6 +95,8 @@ namespace SortRevers
             Queue<Customer> queueCuctomer = new Queue<Customer>();
             List<Customer> listCustomers = new List<Customer>(100);
             Dictionary<int, Customer> dictionaryCuctomer = new Dictionary<int, Customer>();
+            Customer[] ArryCustomers = new Customer[] { customer1, customer2, customer3, customer4, customer5 };
+
 
             stackCustomers.Push(customer1);
             stackCustomers.Push(customer2);
@@ -97,9 +116,11 @@ namespace SortRevers
             listCustomers.Sort();
             listCustomers.Reverse();
 
+                
             SortByName sortByName = new SortByName();
             SortBySalary sortBySalary = new SortBySalary();
             listCustomers.Sort(sortByName);
+            listCustomers.AddRange(ArryCustomers);
             //listCustomers.Sort(delegate (Customer customer1, Customer customer2) { return customer1.Name.CompareTo(customer2.Name); });
 
 
@@ -113,7 +134,7 @@ namespace SortRevers
 
 
 
-            dictionaryCuctomer.Add(customer2.ID, customer2);    
+            dictionaryCuctomer.Add(customer2.ID, customer2);
             dictionaryCuctomer.Add(customer3.ID, customer3);
             dictionaryCuctomer.Add(customer4.ID, customer4);
             dictionaryCuctomer.Add(customer5.ID, customer5);
@@ -126,8 +147,11 @@ namespace SortRevers
 
             Console.WriteLine("\n===================(List TrueForAll)===================\n");
 
+
+
+
             var item = listCustomers.TrueForAll(x => x.Salary > 1000);
-            if(item == true)
+            if (item == true)
             {
                 Console.WriteLine("Iedereen kijken boven dan 1000");
                 Console.WriteLine(item);
@@ -152,6 +176,17 @@ namespace SortRevers
             {
                 Console.WriteLine("ID: {0} , Name:{1} , Salary: {2} ", l.ID, l.Name, l.Salary);
             }
+
+            Console.WriteLine("\n");
+
+            Console.WriteLine("Salary boven dan 3000");
+            List<Customer> findAll = listCustomers.FindAll(x => x.Salary > 3000);
+            foreach (Customer f in findAll)
+            {
+                Console.WriteLine("ID: {0} , Name:{1} , Salary: {2} ", f.ID, f.Name, f.Salary);
+
+            }
+
 
 
             Console.ForegroundColor = ConsoleColor.Red;
@@ -180,7 +215,7 @@ namespace SortRevers
             }
             Console.WriteLine("Count: {0}", stackCustomers.Count);
             if (stackCustomers.Contains(customer5))
-            { 
+            {
                 Console.WriteLine("customer5 is exist");
             }
             else
@@ -189,25 +224,54 @@ namespace SortRevers
             }
 
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("\n===================(Dictionary)===================\n");
+            Console.WriteLine("\n===================(Dictionary FIFO)===================\n");
 
-            foreach(KeyValuePair<int, Customer> d in dictionaryCuctomer)
+
+            int countSalary = dictionaryCuctomer.Count(kvp => kvp.Value.Salary > 3000);
+            Console.WriteLine("Customer die boven dan 2000 salary krijgen zijn : {0}", countSalary);
+
+            foreach (KeyValuePair<int, Customer> d in dictionaryCuctomer)
             {
-               Customer customer = d.Value;
+                Customer customer = d.Value;
 
                 Console.WriteLine("ID: {0} , Name:{1} , Salary: {2} ", d.Key, customer.Name, customer.Salary);
 
             }
+            Console.WriteLine("\n*************");
+            Customer cust;
+            if (dictionaryCuctomer.TryGetValue(9, out cust))
+            {
+                Console.WriteLine("ID: {0} , Name:{1} , Salary: {2} ", cust.ID, cust.Name, cust.Salary);
+            }
+            else
+            {
+                Console.WriteLine("dit cutomer is niet gevonden");
+            }
 
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("\n===================(Array To Dictionary && List To Dictionary)===================\n");
 
+            Dictionary<int, Customer> arrayToDictionary = ArryCustomers.ToDictionary(x => x.ID, x => x);
 
+            foreach (KeyValuePair<int, Customer> kvp in arrayToDictionary)
+            {
+                Customer customer = kvp.Value;
 
+                Console.WriteLine("ID: {0} , Name:{1} , Salary: {2} ", kvp.Key, customer.Name, customer.Salary);
 
+            }
 
+            Console.WriteLine("\n");
 
+            //Dictionary<int, Customer> listToDictionary = listCustomers.ToDictionary(x => x.ID, x => x);
 
+            //foreach (KeyValuePair<int, Customer> kvp in listToDictionary)
+            //{
+            //    Customer customer = kvp.Value;
 
+            //    Console.WriteLine("ID: {0} , Name:{1} , Salary: {2} ", kvp.Key, customer.Name, customer.Salary);
 
+            //}
 
 
 
@@ -299,7 +363,6 @@ namespace SortRevers
                 while (strUserChoice != "YES" && strUserChoice != "NO");
 
             } while (strUserChoice == "YES");
-
 
 
 
